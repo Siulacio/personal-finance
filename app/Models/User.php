@@ -11,7 +11,8 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -34,6 +35,16 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function budgets(): HasMany
+    {
+        return $this->hasMany(Budget::class);
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -45,15 +56,5 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-    public function transactions(): hasMany
-    {
-        return $this->hasMany(Transaction::class);
-    }
-
-    public function budgets(): hasMany
-    {
-        return $this->hasMany(Budget::class);
     }
 }
