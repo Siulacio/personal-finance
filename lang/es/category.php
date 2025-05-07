@@ -13,4 +13,14 @@ return [
         App\Enums\CategoryTypes::INCOME->value => 'Ingreso',
         App\Enums\CategoryTypes::EXPENSE->value => 'Gasto',
     ],
+    'messages' => [
+        'created' => [
+            'title' => 'Categoría creada',
+            'body' => 'La categoría ha sido creada exitosamente.',
+        ],
+        'updated' => [
+            'title' => 'Categoría actualizada',
+            'body' => 'La categoría ha sido actualizada exitosamente.',
+        ],
+    ],
 ];
