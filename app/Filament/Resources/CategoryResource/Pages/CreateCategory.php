@@ -16,4 +16,9 @@ class CreateCategory extends CreateRecord
     {
         return trans('category.title.create');
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }
