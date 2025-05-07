@@ -21,11 +21,21 @@ class CategoryResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('type')
-                    ->required(),
+                Forms\Components\Section::make()
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->label(trans('category.fields.name'))
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Select::make('type')
+                            ->label(trans('category.fields.type'))
+                            ->options([
+                                'income' => 'Income',
+                                'expense' => 'Expense',
+                            ])
+                            ->required(),
+                    ])
+                    ->columns(),
             ]);
     }
 
