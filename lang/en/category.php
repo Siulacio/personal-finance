@@ -15,12 +15,12 @@ return [
     ],
     'messages' => [
         'created' => [
-            'title' => 'Categoría creada',
-            'body' => 'La categoría ha sido creada exitosamente.',
+            'title' => 'Category created',
+            'body' => 'The category has been created successfully.',
         ],
         'updated' => [
-            'title' => 'Categoría actualizada',
-            'body' => 'La categoría ha sido actualizada exitosamente.',
+            'title' => 'Category updated',
+            'body' => 'The category has been updated successfully.',
         ],
     ],
 ];
