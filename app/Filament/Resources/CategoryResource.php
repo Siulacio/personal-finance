@@ -29,10 +29,7 @@ class CategoryResource extends Resource
                             ->maxLength(255),
                         Forms\Components\Select::make('type')
                             ->label(trans('category.fields.type'))
-                            ->options([
-                                'income' => 'Income',
-                                'expense' => 'Expense',
-                            ])
+                            ->options(\App\Enums\CategoryTypes::toArray())
                             ->required(),
                     ])
                     ->columns(),
