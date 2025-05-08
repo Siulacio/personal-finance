@@ -7,7 +7,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CategoryResource\Pages;
 use App\Models\Category;
 use Filament\Forms\Form;
-use Filament\{Forms, Tables, Tables\Columns\TextColumn};
+use Filament\{Forms, Notifications\Notification, Tables, Tables\Columns\TextColumn};
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 
@@ -45,7 +45,8 @@ class CategoryResource extends Resource
                     ->rowIndex(),
                 TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('type'),
+                TextColumn::make('type')
+                    ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -58,7 +59,20 @@ class CategoryResource extends Resource
             ->filters([
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->button()
+                    ->color('primary'),
+                Tables\Actions\DeleteAction::make()
+                    ->button()
+                    ->color('danger')
+                    ->label(trans('generals.actions.delete'))
+                    ->modalHeading(trans('generals.actions.delete-item', ['item' => trans('category.entity')]))
+                    ->successNotification(
+                        Notification::make()
+                            ->title(trans('category.messages.deleted.title'))
+                            ->body(trans('category.messages.deleted.body'))
+                            ->success()
+                    ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
