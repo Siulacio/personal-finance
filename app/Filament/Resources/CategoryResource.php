@@ -41,6 +41,7 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')
+                    ->label('Nro')
                     ->sortable()
                     ->rowIndex(),
                 TextColumn::make('name')
