@@ -22,21 +22,28 @@ class TransactionResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('type')
+                    ->label(trans('transaction.fields.type'))
                     ->required(),
                 Forms\Components\TextInput::make('amount')
+                    ->label(trans('transaction.fields.amount'))
                     ->required()
                     ->numeric(),
                 Forms\Components\Textarea::make('description')
+                    ->label(trans('transaction.fields.description'))
                     ->required()
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('image')
+                    ->label(trans('transaction.fields.image'))
                     ->image(),
                 Forms\Components\DatePicker::make('date')
+                    ->label(trans('transaction.fields.date'))
                     ->required(),
                 Forms\Components\Select::make('user_id')
+                    ->label(trans('transaction.fields.user'))
                     ->relationship('user', 'name')
                     ->required(),
                 Forms\Components\Select::make('category_id')
+                    ->label(trans('transaction.fields.category'))
                     ->relationship('category', 'name')
                     ->required(),
             ]);
@@ -94,5 +101,10 @@ class TransactionResource extends Resource
             'create' => Pages\CreateTransaction::route('/create'),
             'edit' => Pages\EditTransaction::route('/{record}/edit'),
         ];
+    }
+
+    public static function getModelLabel(): string
+    {
+        return trans('transaction.entity');
     }
 }
