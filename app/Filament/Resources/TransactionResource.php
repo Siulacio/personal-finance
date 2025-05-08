@@ -1,17 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TransactionResource\Pages;
-use App\Filament\Resources\TransactionResource\RelationManagers;
 use App\Models\Transaction;
-use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\{Forms, Tables};
 use Filament\Resources\Resource;
-use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class TransactionResource extends Resource
 {
@@ -72,7 +70,6 @@ class TransactionResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -87,7 +84,6 @@ class TransactionResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
         ];
     }
 
