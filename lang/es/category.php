@@ -22,5 +22,9 @@ return [
             'title' => 'Categoría actualizada',
             'body' => 'La categoría ha sido actualizada exitosamente.',
         ],
+        'deleted' => [
+            'title' => 'Categoría eliminada',
+            'body' => 'La categoría ha sido eliminada exitosamente.',
+        ],
     ],
 ];

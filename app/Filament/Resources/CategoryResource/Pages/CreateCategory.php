@@ -20,12 +20,7 @@ class CreateCategory extends CreateRecord
 
     protected function getCreatedNotification(): ?Notification
     {
-        return null;
-    }
-
-    protected function afterCreate(): void
-    {
-        Notification::make()
+        return Notification::make()
             ->title(trans('category.messages.created.title'))
             ->body(trans('category.messages.created.body'))
             ->success()
