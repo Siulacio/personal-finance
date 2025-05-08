@@ -31,6 +31,8 @@ class EditCategory extends EditRecord
     {
         return [
             Actions\DeleteAction::make()
+                ->label(trans('generals.actions.delete'))
+                ->modalHeading(trans('generals.actions.delete-item', ['item' => trans('category.entity')]))
                 ->successNotification(
                     Notification::make()
                         ->title(trans('category.messages.deleted.title'))

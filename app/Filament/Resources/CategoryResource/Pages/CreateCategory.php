@@ -31,4 +31,13 @@ class CreateCategory extends CreateRecord
     {
         return $this->getResource()::getUrl('index');
     }
+
+    protected function getFormActions(): array
+    {
+        return [
+            $this->getCreateFormAction()->label(trans('generals.actions.save')),
+            $this->getCreateAnotherFormAction()->label(trans('generals.actions.save-create')),
+            $this->getCancelFormAction()->label(trans('generals.actions.cancel')),
+        ];
+    }
 }
