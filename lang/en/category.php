@@ -2,10 +2,6 @@
 
 return [
     'entity' => 'Category',
-    'title' => [
-        'create' => 'Create category',
-        'edit' => 'Edit category',
-    ],
     'fields' => [
         'name' => 'Name',
         'type' => 'Type',

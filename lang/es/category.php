@@ -2,10 +2,6 @@
 
 return [
     'entity' => 'Categoría',
-    'title' => [
-        'create' => 'Crear categoría',
-        'edit' => 'Editar categoría',
-    ],
     'fields' => [
         'name' => 'Nombre',
         'type' => 'Tipo',
