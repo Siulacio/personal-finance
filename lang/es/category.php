@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'entity' => 'Categoría',
     'title' => [
         'create' => 'Crear categoría',
         'edit' => 'Editar categoría',
