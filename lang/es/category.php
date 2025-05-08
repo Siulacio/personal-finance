@@ -28,4 +28,7 @@ return [
             'body' => 'La categoría ha sido eliminada exitosamente.',
         ],
     ],
+    'filters' => [
+        'type' => 'Filtrar por tipo',
+    ],
 ];

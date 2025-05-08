@@ -28,4 +28,7 @@ return [
             'body' => 'The category has been deleted successfully.',
         ],
     ],
+    'filters' => [
+        'type' => 'Filter by type',
+    ],
 ];

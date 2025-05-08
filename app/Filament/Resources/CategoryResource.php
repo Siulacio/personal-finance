@@ -44,8 +44,10 @@ class CategoryResource extends Resource
                     ->sortable()
                     ->rowIndex(),
                 TextColumn::make('name')
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('type')
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -57,6 +59,10 @@ class CategoryResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
+                Tables\Filters\SelectFilter::make('type')
+                    ->options(\App\Enums\CategoryTypes::toArray())
+                    ->placeholder(trans('category.filters.type'))
+                    ->label(trans('category.fields.type')),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
