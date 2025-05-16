@@ -30,7 +30,6 @@ class CreateCategory extends CreateRecord
     {
         return [
             $this->getCreateFormAction()->label(trans('generals.actions.save')),
-            $this->getCreateAnotherFormAction()->label(trans('generals.actions.save-create')),
             $this->getCancelFormAction()->label(trans('generals.actions.cancel')),
         ];
     }
