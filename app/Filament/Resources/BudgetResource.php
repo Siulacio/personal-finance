@@ -28,17 +28,17 @@ class BudgetResource extends Resource
                             ->numeric(),
                         Forms\Components\TextInput::make('spent_amount')
                             ->label(trans('budget.fields.spent_amount'))
-                            ->required()
                             ->numeric()
-                            ->default(0.00),
+                            ->default(0.00)
+                            ->disabled(),
                         Forms\Components\Select::make('month')
                             ->label(trans('budget.fields.month'))
                             ->required()
                             ->options(Months::toArray()),
-                        Forms\Components\TextInput::make('year')
+                        Forms\Components\Select::make('year')
                             ->label(trans('budget.fields.year'))
                             ->required()
-                            ->maxLength(255),
+                            ->options(self::getAvailableYears()),
                         Forms\Components\Select::make('user_id')
                             ->label(trans('budget.fields.user'))
                             ->relationship('user', 'name')
@@ -132,5 +132,14 @@ class BudgetResource extends Resource
     public static function getModelLabel(): string
     {
         return trans('budget.entity');
+    }
+
+    private static function getAvailableYears(): array
+    {
+        return [
+            now()->subYear()->year => now()->subYear()->year,
+            now()->year => now()->year,
+            now()->addYear()->year => now()->addYear()->year,
+        ];
     }
 }
