@@ -36,4 +36,22 @@ enum Months: string
             self::DECEMBER->value => trans('generals.months.' . self::DECEMBER->value),
         ];
     }
+
+    public static function toPlainArray(): array
+    {
+        return [
+            trans('generals.months.' . self::JANUARY->value),
+            trans('generals.months.' . self::FEBRUARY->value),
+            trans('generals.months.' . self::MARCH->value),
+            trans('generals.months.' . self::APRIL->value),
+            trans('generals.months.' . self::MAY->value),
+            trans('generals.months.' . self::JUNE->value),
+            trans('generals.months.' . self::JULY->value),
+            trans('generals.months.' . self::AUGUST->value),
+            trans('generals.months.' . self::SEPTEMBER->value),
+            trans('generals.months.' . self::OCTOBER->value),
+            trans('generals.months.' . self::NOVEMBER->value),
+            trans('generals.months.' . self::DECEMBER->value),
+        ];
+    }
 }
