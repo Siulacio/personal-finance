@@ -8,7 +8,7 @@ use App\Enums\CategoryTypes;
 use App\Filament\Resources\TransactionResource\Pages;
 use App\Models\Transaction;
 use Filament\Forms\Form;
-use Filament\{Forms, Tables, Tables\Columns\TextColumn};
+use Filament\{Forms, Notifications\Notification, Tables, Tables\Columns\TextColumn};
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 
@@ -22,70 +22,75 @@ class TransactionResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('type')
-                    ->label(trans('transaction.fields.type'))
-                    ->options(CategoryTypes::toArray())
-                    ->required(),
-                Forms\Components\TextInput::make('amount')
-                    ->label(trans('transaction.fields.amount'))
-                    ->required()
-                    ->numeric(),
-                Forms\Components\RichEditor::make('description')
-                    ->label(trans('transaction.fields.description'))
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\FileUpload::make('image')
-                    ->label(trans('transaction.fields.image'))
-                    ->image()
-                    ->disk('public')
-                    ->directory('images'),
-                Forms\Components\DatePicker::make('date')
-                    ->label(trans('transaction.fields.date'))
-                    ->required(),
-                Forms\Components\Select::make('user_id')
-                    ->label(trans('transaction.fields.user'))
-                    ->relationship('user', 'name')
-                    ->required(),
-                Forms\Components\Select::make('category_id')
-                    ->label(trans('transaction.fields.category'))
-                    ->relationship('category', 'name')
-                    ->required(),
+                Forms\Components\Section::make()->schema([
+                    Forms\Components\Select::make('type')
+                        ->label(trans('transaction.fields.type'))
+                        ->options(CategoryTypes::toArray())
+                        ->required(),
+                    Forms\Components\TextInput::make('amount')
+                        ->label(trans('transaction.fields.amount'))
+                        ->required()
+                        ->numeric(),
+                    Forms\Components\RichEditor::make('description')
+                        ->label(trans('transaction.fields.description'))
+                        ->required()
+                        ->columnSpanFull(),
+                    Forms\Components\FileUpload::make('image')
+                        ->label(trans('transaction.fields.image'))
+                        ->image()
+                        ->disk('public')
+                        ->directory('images'),
+                    Forms\Components\DatePicker::make('date')
+                        ->label(trans('transaction.fields.date'))
+                        ->required(),
+                    Forms\Components\Select::make('user_id')
+                        ->label(trans('transaction.fields.user'))
+                        ->relationship('user', 'name')
+                        ->required(),
+                    Forms\Components\Select::make('category_id')
+                        ->label(trans('transaction.fields.category'))
+                        ->relationship('category', 'name')
+                        ->required(),
+                ])->columns(),
             ]);
     }
 
+    /**
+     * @throws \Exception
+     */
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
+                TextColumn::make('id')
                     ->label('Nro')
                     ->sortable()
                     ->rowIndex(),
-                Tables\Columns\TextColumn::make('type')
+                TextColumn::make('type')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('amount')
+                TextColumn::make('amount')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\ImageColumn::make('image')
                     ->width(50)
                     ->height(50),
-                Tables\Columns\TextColumn::make('date')
+                TextColumn::make('date')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('user.name')
+                TextColumn::make('user.name')
                     ->numeric()
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('category.name')
+                TextColumn::make('category.name')
                     ->numeric()
                     ->sortable()
                     ->searchable(),
@@ -94,9 +99,26 @@ class TransactionResource extends Resource
                     ->html(),
             ])
             ->filters([
+                Tables\Filters\SelectFilter::make('type')
+                    ->options(CategoryTypes::toArray())
+                    ->placeholder(trans('category.filters.type'))
+                    ->label(trans('category.fields.type')),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->button()
+                    ->color('primary'),
+                Tables\Actions\DeleteAction::make()
+                    ->button()
+                    ->color('danger')
+                    ->label(trans('generals.actions.delete'))
+                    ->modalHeading(trans('generals.actions.delete-item', ['item' => trans('transaction.entity')]))
+                    ->successNotification(
+                        Notification::make()
+                            ->title(trans('transaction.messages.deleted.title'))
+                            ->body(trans('transaction.messages.deleted.body'))
+                            ->success()
+                    ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

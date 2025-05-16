@@ -15,7 +15,9 @@ class EditTransaction extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+                ->label(trans('generals.actions.delete'))
+                ->modalHeading(trans('generals.actions.delete-item', ['item' => trans('transaction.entity')])),
         ];
     }
 }
