@@ -9,7 +9,16 @@ use App\Enums\CategoryTypes;
 use App\Filament\Resources\TransactionResource\Pages;
 use App\Models\Transaction;
 use Filament\Forms\Form;
-use Filament\{Forms, Notifications\Notification, Tables, Tables\Columns\TextColumn};
+use Filament\{Forms,
+    Forms\Components\FileUpload,
+    Forms\Components\RichEditor,
+    Forms\Components\Section,
+    Forms\Components\Select,
+    Forms\Components\TextInput,
+    Notifications\Notification,
+    Tables,
+    Tables\Actions\BulkActionGroup,
+    Tables\Columns\TextColumn};
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 
@@ -23,20 +32,20 @@ class TransactionResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make()->schema([
-                    Forms\Components\Select::make('type')
+                Section::make()->schema([
+                    Select::make('type')
                         ->label(trans('transaction.fields.type'))
                         ->options(CategoryTypes::toArray())
                         ->required(),
-                    Forms\Components\TextInput::make('amount')
+                    TextInput::make('amount')
                         ->label(trans('transaction.fields.amount'))
                         ->required()
                         ->numeric(),
-                    Forms\Components\RichEditor::make('description')
+                    RichEditor::make('description')
                         ->label(trans('transaction.fields.description'))
                         ->required()
                         ->columnSpanFull(),
-                    Forms\Components\FileUpload::make('image')
+                    FileUpload::make('image')
                         ->label(trans('transaction.fields.image'))
                         ->image()
                         ->disk('public')
@@ -44,11 +53,11 @@ class TransactionResource extends Resource
                     Forms\Components\DatePicker::make('date')
                         ->label(trans('transaction.fields.date'))
                         ->required(),
-                    Forms\Components\Select::make('user_id')
+                    Select::make('user_id')
                         ->label(trans('transaction.fields.user'))
                         ->relationship('user', 'name')
                         ->required(),
-                    Forms\Components\Select::make('category_id')
+                    Select::make('category_id')
                         ->label(trans('transaction.fields.category'))
                         ->relationship('category', 'name')
                         ->required(),
@@ -70,7 +79,16 @@ class TransactionResource extends Resource
                 TextColumn::make('type')
                     ->label(trans('transaction.fields.type'))
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->formatStateUsing(function ($state): string {
+                        return trans('category.types.' . $state);
+                    })
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        CategoryTypes::INCOME->value => 'success',
+                        CategoryTypes::EXPENSE->value => 'danger',
+                        default => 'gray',
+                    }),
                 TextColumn::make('amount')
                     ->label(trans('transaction.fields.amount'))
                     ->numeric()
@@ -131,7 +149,7 @@ class TransactionResource extends Resource
                     ),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+                BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);

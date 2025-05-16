@@ -5,10 +5,17 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Const\HeroIcons;
+use App\Enums\CategoryTypes;
 use App\Filament\Resources\CategoryResource\Pages;
 use App\Models\Category;
 use Filament\Forms\Form;
-use Filament\{Forms, Notifications\Notification, Tables, Tables\Columns\TextColumn};
+use Filament\{Forms,
+    Forms\Components\Section,
+    Forms\Components\TextInput,
+    Notifications\Notification,
+    Tables,
+    Tables\Columns\TextColumn,
+    Tables\Filters\SelectFilter};
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 
@@ -22,15 +29,15 @@ class CategoryResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make()
+                Section::make()
                     ->schema([
-                        Forms\Components\TextInput::make('name')
+                        TextInput::make('name')
                             ->label(trans('category.fields.name'))
                             ->required()
                             ->maxLength(255),
                         Forms\Components\Select::make('type')
                             ->label(trans('category.fields.type'))
-                            ->options(\App\Enums\CategoryTypes::toArray())
+                            ->options(CategoryTypes::toArray())
                             ->required(),
                     ])
                     ->columns(),
@@ -52,7 +59,16 @@ class CategoryResource extends Resource
                 TextColumn::make('type')
                     ->label(trans('category.fields.type'))
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->formatStateUsing(function ($state): string {
+                        return trans('category.types.' . $state);
+                    })
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        CategoryTypes::INCOME->value => 'success',
+                        CategoryTypes::EXPENSE->value => 'danger',
+                        default => 'gray',
+                    }),
                 TextColumn::make('created_at')
                     ->label(trans('generals.timestamps.created_at'))
                     ->dateTime()
@@ -65,8 +81,8 @@ class CategoryResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('type')
-                    ->options(\App\Enums\CategoryTypes::toArray())
+                SelectFilter::make('type')
+                    ->options(CategoryTypes::toArray())
                     ->placeholder(trans('category.filters.type'))
                     ->label(trans('category.fields.type')),
             ])

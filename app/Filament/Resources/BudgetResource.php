@@ -4,10 +4,18 @@ namespace App\Filament\Resources;
 
 use App\Const\HeroIcons;
 use App\Enums\Months;
-use App\Filament\Resources\BudgetResource\{Pages};
+use App\Filament\Resources\BudgetResource\Pages;
 use App\Models\Budget;
 use Filament\Forms\Form;
-use Filament\{Forms, Notifications\Notification, Tables};
+use Filament\{Forms,
+    Forms\Components\Select,
+    Forms\Components\TextInput,
+    Notifications\Notification,
+    Tables,
+    Tables\Actions\BulkActionGroup,
+    Tables\Actions\DeleteAction,
+    Tables\Actions\EditAction,
+    Tables\Columns\TextColumn};
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 
@@ -23,28 +31,28 @@ class BudgetResource extends Resource
             ->schema([
                 Forms\Components\Section::make()
                     ->schema([
-                        Forms\Components\TextInput::make('allocated_amount')
+                        TextInput::make('allocated_amount')
                             ->label(trans('budget.fields.allocated_amount'))
                             ->required()
                             ->numeric(),
-                        Forms\Components\TextInput::make('spent_amount')
+                        TextInput::make('spent_amount')
                             ->label(trans('budget.fields.spent_amount'))
                             ->numeric()
                             ->default(0.00)
                             ->disabled(),
-                        Forms\Components\Select::make('month')
+                        Select::make('month')
                             ->label(trans('budget.fields.month'))
                             ->required()
                             ->options(Months::toArray()),
-                        Forms\Components\Select::make('year')
+                        Select::make('year')
                             ->label(trans('budget.fields.year'))
                             ->required()
                             ->options(self::getAvailableYears()),
-                        Forms\Components\Select::make('user_id')
+                        Select::make('user_id')
                             ->label(trans('budget.fields.user'))
                             ->relationship('user', 'name')
                             ->required(),
-                        Forms\Components\Select::make('category_id')
+                        Select::make('category_id')
                             ->label(trans('budget.fields.category'))
                             ->relationship('category', 'name')
                             ->required(),
@@ -57,35 +65,36 @@ class BudgetResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('allocated_amount')
+                TextColumn::make('allocated_amount')
                     ->label(trans('budget.fields.allocated_amount'))
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('spent_amount')
+                TextColumn::make('spent_amount')
                     ->label(trans('budget.fields.spent_amount'))
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('month')
+                TextColumn::make('month')
                     ->label(trans('budget.fields.month'))
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('year')
+                    ->searchable()
+                    ->formatStateUsing(fn ($state): string => trans('generals.months.' . $state)),
+                TextColumn::make('year')
                     ->label(trans('budget.fields.year'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->label(trans('generals.timestamps.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->label(trans('generals.timestamps.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('user.name')
+                TextColumn::make('user.name')
                     ->label(trans('budget.fields.user'))
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('category.name')
+                TextColumn::make('category.name')
                     ->label(trans('budget.fields.category'))
                     ->numeric()
                     ->sortable(),
@@ -93,10 +102,10 @@ class BudgetResource extends Resource
             ->filters([
             ])
             ->actions([
-                Tables\Actions\EditAction::make()
+                EditAction::make()
                     ->button()
                     ->color('primary'),
-                Tables\Actions\DeleteAction::make()
+                DeleteAction::make()
                     ->button()
                     ->color('danger')
                     ->label(trans('generals.actions.delete'))
@@ -109,7 +118,7 @@ class BudgetResource extends Resource
                     ),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+                BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
