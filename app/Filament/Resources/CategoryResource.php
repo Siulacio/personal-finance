@@ -45,16 +45,20 @@ class CategoryResource extends Resource
                     ->sortable()
                     ->rowIndex(),
                 TextColumn::make('name')
+                    ->label(trans('category.fields.name'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('type')
+                    ->label(trans('category.fields.type'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('created_at')
+                    ->label(trans('generals.timestamps.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(trans('generals.timestamps.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

@@ -67,34 +67,43 @@ class TransactionResource extends Resource
                     ->sortable()
                     ->rowIndex(),
                 TextColumn::make('type')
+                    ->label(trans('transaction.fields.type'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('amount')
+                    ->label(trans('transaction.fields.amount'))
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\ImageColumn::make('image')
+                    ->label(trans('transaction.fields.image'))
                     ->width(50)
                     ->height(50),
                 TextColumn::make('date')
+                    ->label(trans('transaction.fields.date'))
                     ->date()
                     ->sortable(),
                 TextColumn::make('created_at')
+                    ->label(trans('generals.timestamps.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(trans('generals.timestamps.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('user.name')
+                    ->label(trans('transaction.fields.user'))
                     ->numeric()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('category.name')
+                    ->label(trans('transaction.fields.category'))
                     ->numeric()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('description')
+                    ->label(trans('transaction.fields.description'))
                     ->limit(50)
                     ->html(),
             ])
