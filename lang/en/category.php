@@ -27,4 +27,7 @@ return [
     'filters' => [
         'type' => 'Filter by type',
     ],
+    'stats' => [
+        'total' => 'Total available categories',
+    ],
 ];

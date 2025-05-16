@@ -25,4 +25,7 @@ return [
             'body' => 'El movimiento ha sido eliminado exitosamente.',
         ],
     ],
+    'stats' => [
+        'income_total' => 'Total de ingresos',
+    ],
 ];

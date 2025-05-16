@@ -3,11 +3,10 @@
 namespace App\Filament\Widgets;
 
 use App\Enums\CategoryTypes;
-use App\Models\Category;
-use App\Models\Transaction;
-use App\Models\User;
+use App\Models\{Category, Transaction, User};
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use Illuminate\Support\Str;
 
 class Dashboard extends BaseWidget
 {
@@ -22,27 +21,29 @@ class Dashboard extends BaseWidget
 
     private function getUserStat(): Stat
     {
-        return Stat::make('Users', User::query()->count())
+        return Stat::make(Str::plural(trans('user.entity')), User::query()->count())
             ->icon('heroicon-o-users')
-            ->description('Total de usuarios registrados');
+            ->description(trans('user.stats.total'));
     }
 
     private function getCategoryStat(): Stat
     {
-        return Stat::make('Categories', Category::query()->count())
+        return Stat::make(Str::plural(trans('category.entity')), Category::query()->count())
             ->icon('heroicon-o-rectangle-stack')
-            ->description('Total de categorias disponibles');
+            ->description(trans('category.stats.total'));
     }
 
     private function getTransactionStat(): Stat
     {
-        return Stat::make('Transactions', '$ ' . $this->getIncomeSum())
+        return Stat::make(Str::plural(trans('transaction.entity')), '$ ' . $this->getIncomeSum())
             ->icon('heroicon-o-currency-dollar')
-            ->description('Total de ingresos');
+            ->description(trans('transaction.stats.income_total'));
     }
 
     private function getIncomeSum(): int
     {
-        return Transaction::query()->where('type', CategoryTypes::INCOME->value)->sum('amount');
+        return Transaction::query()
+            ->where('type', CategoryTypes::INCOME->value)
+            ->sum('amount');
     }
 }

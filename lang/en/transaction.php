@@ -25,4 +25,7 @@ return [
             'body' => 'The transaction has been deleted successfully.',
         ],
     ],
+    'stats' => [
+        'income_total' => 'Total income',
+    ],
 ];
