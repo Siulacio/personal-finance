@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Const\HeroIcons;
 use App\Enums\CategoryTypes;
 use App\Filament\Resources\TransactionResource\Pages;
 use App\Models\Transaction;
@@ -16,7 +17,7 @@ class TransactionResource extends Resource
 {
     protected static ?string $model = Transaction::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
+    protected static ?string $navigationIcon = HeroIcons::CURRENCY_DOLAR;
 
     public static function form(Form $form): Form
     {

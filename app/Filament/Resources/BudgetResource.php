@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Const\HeroIcons;
 use App\Enums\Months;
 use App\Filament\Resources\BudgetResource\{Pages};
 use App\Models\Budget;
@@ -14,7 +15,7 @@ class BudgetResource extends Resource
 {
     protected static ?string $model = Budget::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-chart-pie';
+    protected static ?string $navigationIcon = HeroIcons::CHAR_PIE;
 
     public static function form(Form $form): Form
     {

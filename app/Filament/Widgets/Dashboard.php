@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use App\Const\HeroIcons;
 use App\Enums\CategoryTypes;
 use App\Models\{Category, Transaction, User};
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
@@ -22,21 +23,21 @@ class Dashboard extends BaseWidget
     private function getUserStat(): Stat
     {
         return Stat::make(Str::plural(trans('user.entity')), User::query()->count())
-            ->icon('heroicon-o-users')
+            ->icon(HeroIcons::USERS)
             ->description(trans('user.stats.total'));
     }
 
     private function getCategoryStat(): Stat
     {
         return Stat::make(Str::plural(trans('category.entity')), Category::query()->count())
-            ->icon('heroicon-o-rectangle-stack')
+            ->icon(HeroIcons::RECTANGLE_STACK)
             ->description(trans('category.stats.total'));
     }
 
     private function getTransactionStat(): Stat
     {
         return Stat::make(Str::plural(trans('transaction.entity')), '$ ' . $this->getIncomeSum())
-            ->icon('heroicon-o-currency-dollar')
+            ->icon(HeroIcons::CURRENCY_DOLAR)
             ->description(trans('transaction.stats.income_total'));
     }
 
